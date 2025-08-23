@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #f8fafc; }
+        .navbar {
+            background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.7rem;
+            letter-spacing: 2px;
+        }
+        .nav-link, .navbar-brand, .dropdown-item {
+            color: #fff !important;
+        }
+        .nav-link:hover, .dropdown-item:hover {
+            color: black !important;
+        }
+        .navbar .centered-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 1.7rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            background: #ac0808;
+            display: inline-block;
+        }
+        .dropdown-menu {
+            background-color: #111 !important;
+        }
+        .dropdown-item {
+            color: rgb(255, 255, 255) !important;
+        }
+        .dropdown-item:hover, .dropdown-item:focus {
+            background-color: #222 !important;
+            color: rgb(178, 175, 175) !important;
+        }
+        @media (max-width: 991.98px) {
+            .navbar .centered-title { position: static; transform: none; text-align: center; display: block; }
+        }
+        .centered-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .auth-box {
+            background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%) !important;
+            color: #fff !important;
+            border: none;
+        }
+        .auth-box .form-label,
+        .auth-box .form-control,
+        .auth-box .btn-link,
+        .auth-box .text-danger {
+            color: #fff !important;
+        }
+        .auth-box .form-control {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid #fff;
+        }
+        .auth-box .form-control::placeholder {
+            color: #e0e0e0;
+        }
+        .auth-box .btn-primary {
+            background: #fff;
+            color: #2a5298;
+            border: none;
+        }
+        .auth-box .btn-primary:hover {
+            background: #ffd700;
+            color: #2a5298;
+        }
+        .navbar-logo i {
+            font-size: 2rem;
+            color: #ffd700;
+        }
+        .btn-add-todo {
+            background-color: #2b2bb2 !important;
+            border-color: #2b2bb2 !important;
+            color: #fff !important;
+        }
+        .btn-add-todo:hover, .btn-add-todo:focus {
+            background-color: #23238a !important;
+            border-color: #23238a !important;
+            color: #fff !important;
+        }
+        .dark-mode {
+            background: #181a1b !important;
+            color: #e0e0e0 !important;
+        }
+        .dark-mode .navbar {
+            background: linear-gradient(90deg, #23243a 0%, #2a2b3a 100%) !important;
+        }
+        .dark-mode .navbar-logo i {
+            color: #ffd700;
+        }
+        .dark-mode .centered-title,
+        .dark-mode .navbar-brand,
+        .dark-mode .nav-link,
+        .dark-mode .dropdown-item {
+            color: #fff !important;
+        }
+        .dark-mode .dropdown-menu {
+            background-color: #23243a !important;
+        }
+        .dark-mode .dropdown-item:hover, .dark-mode .dropdown-item:focus {
+            background-color: #2a2b3a !important;
+            color: #ffd700 !important;
+        }
+        .dark-mode .auth-box {
+            background: linear-gradient(90deg, #23243a 0%, #2a2b3a 100%) !important;
+            color: #fff !important;
+        }
+        .dark-mode .auth-box .form-label,
+        .dark-mode .auth-box .form-control,
+        .dark-mode .auth-box .btn-link,
+        .dark-mode .auth-box .text-danger {
+            color: #fff !important;
+        }
+        .dark-mode .auth-box .form-control {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #444;
+        }
+        .dark-mode .auth-box .form-control::placeholder {
+            color: #aaa;
+        }
+        .dark-mode .auth-box .btn-primary {
+            background: #ffd700;
+            color: #23243a;
+        }
+        .dark-mode .auth-box .btn-primary:hover {
+            background: #fff;
+            color: #23243a;
+        }
+        .dark-mode .btn-add-todo {
+            background-color: #4444cc !important;
+            border-color: #4444cc !important;
+            color: #fff !important;
+        }
+        .dark-mode .btn-add-todo:hover, .dark-mode .btn-add-todo:focus {
+            background-color: #23238a !important;
+            border-color: #23238a !important;
+            color: #fff !important;
+        }
+        .dark-mode .card-header.bg-white.text-dark {
+            background: #23243a !important;
+            color: #fff !important;
+            border-color: #444 !important;
+        }
+        .dark-mode .alert {
+            background: #23243a !important;
+            color: #ffd700 !important;
+            border-color: #ffd700 !important;
+        }
+        /* Fade-in animation for main container */
+        .container {
+            opacity: 0;
+            animation: fadeIn 1s ease 0.2s forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        /* Button scale on hover */
+        .btn, .btn-add-todo, .btn-primary, .btn-outline-light {
+            transition: transform 0.15s cubic-bezier(.4,2,.6,1), box-shadow 0.15s;
+        }
+        .btn:hover, .btn-add-todo:hover, .btn-primary:hover, .btn-outline-light:hover {
+            transform: scale(1.06);
+            box-shadow: 0 4px 16px rgba(44,44,44,0.10);
+        }
+        /* Dropdown fade-in */
+        .dropdown-menu {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.25s, transform 0.25s;
+        }
+        .show > .dropdown-menu {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        /* Alert fade-in */
+        .alert {
+            opacity: 0;
+            animation: fadeIn 0.7s ease 0.1s forwards;
+        }
+        .dropdown-menu {
+            background: #fff !important;
+            color: #000 !important;
+            position: absolute !important;
+            z-index: 1050 !important;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            border: 1px solid #ddd !important;
+            box-shadow: 0 4px 16px rgba(44,44,44,0.10);
+        }
+        .dropdown-item {
+            color: #000 !important;
+            background: transparent !important;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+        }
+        .dropdown-item:hover, .dropdown-item:focus {
+            background: #f0f0f0 !important;
+            color: #2a5298 !important;
+        }
+        .dark-mode .dropdown-menu {
+            background: #23243a !important;
+            color: #fff !important;
+            border: 1px solid #444 !important;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+        }
+        .dark-mode .dropdown-item {
+            color: #fff !important;
+            background: transparent !important;
+        }
+        .dark-mode .dropdown-item:hover, .dark-mode .dropdown-item:focus {
+            background: #2a2b3a !important;
+            color: #ffd700 !important;
+        }
+        /* Skeleton loader overlay */
+        .skeleton-loader {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100vw; height: 100vh;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s;
+        }
+        .skeleton-loader .skeleton-box {
+            width: 80vw;
+            max-width: 400px;
+            height: 120px;
+            border-radius: 16px;
+            background: #e0e0e0;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            animation: skeleton-pulse 1.2s infinite ease-in-out;
+        }
+        @keyframes skeleton-pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        .dark-mode .skeleton-loader {
+            background: linear-gradient(90deg, #23243a 25%, #2a2b3a 50%, #23243a 75%);
+        }
+        .dark-mode .skeleton-loader .skeleton-box {
+            background: #2a2b3a;
+        }
+    </style>
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column;">
+<div id="skeleton-loader" class="skeleton-loader">
+    <div class="skeleton-box"></div>
+</div>
+<nav class="navbar navbar-expand-lg">
+  <div class="container position-relative">
+    <a class="navbar-brand d-lg-none" href="/">
+      <span class="navbar-logo"><i class="fa-solid fa-clipboard-check"></i></span>
+    </a>
+    <a class="navbar-brand d-none d-lg-flex align-items-center" href="/">
+      <span class="navbar-logo me-2"><i class="fa-solid fa-clipboard-check"></i></span>
+      TODO APP
+    </a>
+    <span class="centered-title d-none d-lg-block">
+      {% if request.path == '/your-stats' %} STATICS {% else %} DASHBOARD {% endif %}
+    </span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/your-stats"><i class="fa fa-chart-bar"></i> Your Stats</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+        </li>
+        <li class="nav-item me-2">
+          <button id="theme-toggle" class="btn btn-outline-light" title="Toggle light/dark mode">
+            <i id="theme-toggle-icon" class="fa fa-moon"></i>
+          </button>
+        </li>
+        {% if not current_user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/signup"><i class="fa fa-user-plus"></i> Sign Up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login"><i class="fa fa-sign-in-alt"></i> Log In</a>
+          </li>
+        {% else %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {% if current_user.avatar_url %}
+                <img src="{{ current_user.avatar_url }}" alt="avatar" class="avatar me-2">
+              {% else %}
+                <span class="avatar me-2 d-flex align-items-center justify-content-center" style="background:#2a5298;"><i class="fa fa-user"></i></span>
+              {% endif %}
+              {{ current_user.username }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a></li>
+              <li><a class="dropdown-item" href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+{% set motivational_quotes = [
+    "You are stronger than you think.",
+    "Every day is a new beginning.",
+    "Small steps every day lead to big results.",
+    "Your future is created by what you do today.",
+    "Push yourself, because no one else is going to do it for you.",
+    "Dream it. Wish it. Do it.",
+    "Doubt kills more dreams than failure ever will.",
+    "Stay positive, work hard, make it happen.",
+    "Success is the sum of small efforts, repeated day in and day out.",
+    "You have the power to change your story."
+] %}
+{% set random_quote = (motivational_quotes|random) %}
+<div class="motivation-bar text-center py-2" style="background: linear-gradient(90deg, #ffd700 0%, #ff6a00 100%); color: #23243a; font-weight: bold; font-size: 1.1rem; letter-spacing: 1px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+    <span><i class="fa fa-bolt"></i> {{ random_quote }}</span>
+</div>
+<!-- Clock bar at extreme left -->
+<div id="clock-bar" class="d-flex align-items-center" style="min-width: 270px; margin-bottom: 1rem; padding: 0.5rem 1.2rem 0.5rem 1.2rem; background: linear-gradient(90deg, #23243a 0%, #2a5298 100%); color: #fff; border-radius: 0 1rem 1rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08); font-size: 1.1rem; font-weight: 500;">
+  <i class="fa fa-clock me-2" style="color: #ffd700;"></i>
+  <span id="clock-time">{{ now.strftime('%A, %B %d, %Y') }} | {{ now.strftime('%I:%M:%S %p') }}</span>
+</div>
+<div aria-live="polite" aria-atomic="true" class="position-fixed top-0 end-0 p-3" style="z-index: 1080;">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="toast align-items-center text-bg-{{ 'success' if category == 'success' else 'danger' if category == 'danger' else 'info' }} border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3500">
+          <div class="d-flex">
+            <div class="toast-body">
+              {{ message }}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+<div class="centered-wrapper" style="flex: 1 0 auto;">
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+</div>
+<!-- Pre-footer About Us section -->
+<div class="pre-footer bg-dark text-light py-4" style="border-top: 2px solid #ffd700;">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+    <div class="mb-3 mb-md-0">
+      <h5>About Developer</h5>
+      <p class="mb-1">I am a passionate developer who loves to create web applications and mobile applications.</p>
+      <p class="mb-0">Contact: <a href="mailto:shazimjaved348@gmail.com" class="text-warning">shazimjaved348@gmail.com</a></p>
+    </div>
+    <div>
+      <h5>Connect with us</h5>
+      <a href="https://twitter.com/yourhandle" class="text-warning me-3" target="_blank"><i class="fab fa-twitter fa-lg"></i></a>
+      <a href="https://facebook.com/yourhandle" class="text-warning me-3" target="_blank"><i class="fab fa-facebook fa-lg"></i></a>
+      <a href="https://instagram.com/yourhandle" class="text-warning me-3" target="_blank"><i class="fab fa-instagram fa-lg"></i></a>
+      <a href="linkedin.com/in/shazim-javed-095472325" class="text-warning" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
+    </div>
+  </div>
+</div>
+<footer class="footer mt-auto py-3" style="background: #23243a; color: #fff; width:100%; z-index:100; flex-shrink: 0;">
+  <div class="container d-flex justify-content-between align-items-center">
+    <span style="color: #fff;">&copy; {{ current_year or 2025 }} TODO App. All rights reserved.</span>
+    {% if current_user.is_authenticated %}
+      <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+    {% endif %}
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Theme toggle logic
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-toggle-icon');
+  function setDarkMode(on) {
+    document.body.classList.toggle('dark-mode', on);
+    themeIcon.className = on ? 'fa fa-sun' : 'fa fa-moon';
+    localStorage.setItem('darkMode', on ? '1' : '0');
+  }
+  // On load, set theme from localStorage
+  if (localStorage.getItem('darkMode') === '1') {
+    setDarkMode(true);
+  }
+  themeToggle.addEventListener('click', function() {
+    setDarkMode(!document.body.classList.contains('dark-mode'));
+  });
+
+  // Hide skeleton loader when page is ready
+  window.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('skeleton-loader').style.opacity = 0;
+    setTimeout(function() {
+      document.getElementById('skeleton-loader').style.display = 'none';
+    }, 400);
+  });
+
+  // Live clock logic
+  function updateClock() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateStr = now.toLocaleDateString(undefined, options);
+    const timeStr = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('clock-time').textContent = `${dateStr} | ${timeStr}`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+    toastElList.forEach(function (toastEl) {
+      var toast = new bootstrap.Toast(toastEl);
+      toast.show();
+    });
+  });
+</script>
+</body>
+</html> 
