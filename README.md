@@ -8,6 +8,7 @@
 
 A simple and elegant **ToDo Web Application** built with **Flask, Bootstrap, SQLAlchemy, and JavaScript**.  
 Manage tasks, track progress, and view live stats with an interactive dashboard.
+![Car Price Predictor](https://github.com/shazimjaved/Flask-Todo-App/blob/main/demo.jpg)
 
 ---
 
