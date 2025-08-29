@@ -1,14 +1,9 @@
 # 📝 Flask ToDo App
-
-![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)  
-![Flask](https://img.shields.io/badge/flask-2.0%2B-green.svg)  
-![Bootstrap](https://img.shields.io/badge/bootstrap-5-blueviolet.svg)  
-![License](https://img.shields.io/badge/license-MIT-orange.svg)  
-![Contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)  
+ ![TODO](https://github.com/shazimjaved/Flask-Todo-App/blob/main/todo.jpg)
 
 A simple and elegant **ToDo Web Application** built with **Flask, Bootstrap, SQLAlchemy, and JavaScript**.  
 Manage tasks, track progress, and view live stats with an interactive dashboard.
-![Car Price Predictor](https://github.com/shazimjaved/Flask-Todo-App/blob/main/demo.jpg)
+![TODO](https://github.com/shazimjaved/Flask-Todo-App/blob/main/demo.jpg)
 
 ---
 
